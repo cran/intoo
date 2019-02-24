@@ -4,115 +4,114 @@
 "%$%<-" = function (object, name, value)
   "attr<-" (object, as.character (substitute (name) ), value)
 
-object.info = function (object,
-	print.value=TRUE, print.value.length=TRUE, print.long.value=FALSE,
-	print.class=TRUE, print.class.length=print.value.length, print.long.class=print.long.value,
-	print.environment=FALSE,
-	print.attributes=TRUE, print.many.attributes=TRUE,
-	print.attribute.names=TRUE, print.attribute.classes=TRUE, print.attribute.lengths=print.value.length,
-	print.attribute.values=TRUE, print.long.attribute.values=print.long.value,
-	n=8L)
-{	if (print.value)
-	{	cat ("value")
-		dims = dim (object)
-		if (print.value.length)
-		{	if (is.null (dims) )
-				dims = length (object)
-			cat (",", paste (dims, collapse=" * ") )
-		}
-		cat ("\n")
-		object2 = object
-		attributes (object2) = NULL
-		if (is.vector (object2) )
-			object2 %$% dim = dims
-		if (is.function (object) )
-			environment (object2) = .GlobalEnv
-		if (!print.long.value)
-			.print.head (object2, n)
-		else
-			print (object2)
-	}
+.object.info = function (object, value, private.attributes, public.attributes, values, comments, n=6)
+{	#print object's description
+	c = class (object) [1]
+	dims = .dim (object)
+	cat (c, ", ", paste (dims, collapse=" * "), "\n", sep="")
+	
+	#print object's value
+	if (value)
+		.print.head (object, n)
 
-	if (print.class)
-	{	cat ("class")
-		c = class (object)
-		if (print.class.length)
-			cat (",", length (c) )
-		cat ("\n")
-		nc = length (c)
-		if (!print.long.class && nc > n)
-			c = c [1:n]	
-		print (c)
-	}
-
-	e = environment (object)
-	if (print.environment && !is.null (e) )
-		print (e)
-
-	if (print.attributes)
-	{	objattrs = attributes (object)
-		if (!is.null (objattrs) )
-		{	objattrs = .remove.special.attributes (objattrs)
-			
-			nattrs = length (objattrs)
-			if (!print.many.attributes && nattrs > n)
-			{	nattrs = n
-				objattrs = objattrs [1:n]
-			}
-
-			if (nattrs > 0)
-			{	objattrs.names = names (objattrs)
-				for (i in 1:nattrs)
-				{	attr = objattrs [[i]]
-					if (print.attribute.names)
-					{	cat ("%$%", objattrs.names [i], sep="")
-						if (print.attribute.classes)
-							cat (",", class (attr)[1])
-						if (print.attribute.lengths)
-						{	dims = dim (attr)
-							if (is.null (dims) )
-								dims = length (attr)
-							cat (",", paste (dims, collapse=" * ") )
-							objattrs2 = attributes (attr)
-							if (!is.null (objattrs2) )
-								objattrs2 = .remove.special.attributes (objattrs2)
-							n.attr.attrs = length (objattrs2)
-							if (n.attr.attrs > 0)
-								cat (" (", n.attr.attrs, ")", sep="")
-						}
-						cat ("\n")
+	#print attributes
+	. = attributes (object)
+	com = .$comment
+	if (!is.null (.) )
+		. = .remove.special.attributes (.)
+	if (!is.null (.) )
+	{	n.attributes = length (.)
+		names.attributes = names (.)
+		if (n.attributes > 0)
+		{	for (i in 1:n.attributes)
+			{	char.1 = substring (names.attributes [i], 1, 1)
+				if (private.attributes && char.1 == "." || public.attributes && char.1 != ".")
+				{	x = . [[i]]
+					c = class (x) [1]
+					dims = .dim (x)
+					x.attributes = attributes (x)
+					x.attributes = .remove.special.attributes (x.attributes)
+					#print attribute dscription
+					cat ("%$% ", names.attributes [i], ", ", c, ", ", dims, sep="")
+					if (!is.null (x.attributes) )
+					{	names.x.attributes = names (x.attributes)
+						char.1 = substring (names.x.attributes, 1, 1)
+						n.x.private = sum (char.1 == ".")
+						n.x.attributes = length (x.attributes)
+						n.x.public = n.x.attributes - n.x.private
+						n.print = 0
+						if (private.attributes && public.attributes)
+							n.print = n.x.attributes
+						else if (private.attributes)
+							n.print = n.x.private
+						else if (public.attributes)
+							n.print = n.x.public
+						#print number of subattributes
+						if (n.print > 0)
+							cat (", (", n.print, ")", sep="")
 					}
-					if (print.attribute.values)
-					{	dims = dim (attr)
-						attributes (attr) = NULL
-						if (is.vector (attr) )
-							attr %$% dim = dims
-						if (!print.long.attribute.values)
-							.print.head (attr, n)
-						else
-							print (attr)
-					}
+					cat ("\n")
+					#print attribute value
+					if (values)
+						.print.head (. [[i]], n)
 				}
 			}
 		}
 	}
+	#print comments
+	if (comments && !is.null (com) )
+		cat (com, sep="\n")
 }
 
-.remove.special.attributes = function (objattrs)
-{	objattrs$class = NULL
-	objattrs$dim = NULL
-	objattrs$srcref = NULL
-	objattrs$.Environment = NULL
-	objattrs
+object.model = function (object,
+	value=FALSE, private.attributes=FALSE, public.attributes=TRUE, values=value, comments=FALSE,
+	n=3)
+	.object.info (object, value, private.attributes, public.attributes, values, comments, n)
+
+object.summary = function (object,
+	value=TRUE, private.attributes=FALSE, public.attributes=TRUE, values=value, comments=TRUE,
+	n=6)
+	.object.info (object, value, private.attributes, public.attributes, values, comments, n)
+
+object.info = function (object, n=6)
+	object.summary (object, n=n)
+
+.remove.special.attributes = function (.)
+{	.$class = NULL
+	.$comment = NULL
+	.$srcref = NULL
+	.$.Environment = NULL
+	.$dim = NULL
+	.$names = NULL
+	.$dimnames = NULL
+	.$row.names = NULL
+
+	.
+}
+
+.dim = function (object)
+{	dims = dim (object)
+	if (is.null (dims) )
+	{	if (is.function (object) )
+		{	b = body (object)
+			if (class (b) == "{")
+				dims = length (format (body (object) ) )
+			else
+				dims = 1
+		}
+		else
+			dims = length (object)
+	}
+	dims
 }
 
 .print.head = function (object, n)
-{	h = head (object, n)
+{	if (inherits (object, "function") )
+		attributes (object) = NULL
+	h = head (object, n)
 	if (class (h) == "noquote")
-		for (line in h)
-				cat (line, "\n")
+		for (l in h)
+				cat (l, "\n", sep="")
 	else
 		print (h)
 }
-
-

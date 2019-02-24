@@ -1,4 +1,6 @@
-41a9232ff966603974af3db293076336 *DESCRIPTION
+aef64d0f9b50039704c4ce04cf56a346 *DESCRIPTION
 731a8cf89a4d0f6a8fed985a74f70b8d *NAMESPACE
-d87c4524ec94e79816362bbf73df4e87 *R/intoo.r
-d1c69d18a19af3d662dd48012df1f6e4 *man/intoo.Rd
+7eac9d0d350a22f3052240f6f2c14485 *R/intoo.r
+238148cf4bac9940862c8d0097f4c1ad *man/rd_1_attribute_operators.Rd
+c4acc91395e7c52ea5244e651c126121 *man/rd_2_print_object_information.Rd
+e943bbc6e4a21f2bef6150bc39a3e036 *man/rd_3_deprecated.Rd
