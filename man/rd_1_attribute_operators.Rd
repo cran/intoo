@@ -8,14 +8,14 @@ object \%$\% name
 object \%$\% name <- value
 }
 \arguments{
-\item{object}{An arbitrary S3 object.}
+\item{object}{An object.}
 \item{name}{An attribute's name.}
 \item{value}{An attribute's value.}
 }
 \details{
-These operators are equivalent to calling attr().
+These operators are equivalent to calling attr() or attr()<-.
 
-Note that currently, they need to be inside parenthesis, for subsetting or function calls.
+Note that currently, they need to be inside parenthesis, for subsetting and function calls.
 }
 \examples{
 #an object
@@ -24,13 +24,11 @@ object = 1L
 #set attributes
 object \%$\% A = 1L
 object \%$\% B = function () 1L
-object \%$\% A \%$\% .X = 1L
 object \%$\% A \%$\% X = 1L
 
 #get attributes
 object \%$\% A
 object \%$\% B
-object \%$\% A \%$\% .X
 object \%$\% A \%$\% X
 
 #this doesn't work

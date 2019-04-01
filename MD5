@@ -1,6 +1,11 @@
-aef64d0f9b50039704c4ce04cf56a346 *DESCRIPTION
-731a8cf89a4d0f6a8fed985a74f70b8d *NAMESPACE
-7eac9d0d350a22f3052240f6f2c14485 *R/intoo.r
-238148cf4bac9940862c8d0097f4c1ad *man/rd_1_attribute_operators.Rd
-c4acc91395e7c52ea5244e651c126121 *man/rd_2_print_object_information.Rd
-e943bbc6e4a21f2bef6150bc39a3e036 *man/rd_3_deprecated.Rd
+7e9c5f726d0269d049618b444834461d *DESCRIPTION
+5acac0672ca740a3b0e243660bb203e0 *NAMESPACE
+280809f7e8984a2c1609506da4815d17 *R/intoo.r
+b2f29311b2529c870b6101f78584bb62 *R/nmatrix.r
+75b961a4d67ee3faf2697a609c9510ee *R/object_info.r
+906652d0da2726f4460e9549363c6b18 *man/rd_1_attribute_operators.Rd
+34773cd7e0f5a6f54f358082098a6d2d *man/rd_2_convenience_functions_1.Rd
+82202e9ebc4214d367543ccd43240da5 *man/rd_3_convenience_functions_2.Rd
+7bdb45919edde0e2b87f0e877c1670fc *man/rd_4_print_object_information.Rd
+d141ac75b88a3e87c127e7ccf9e4aba4 *man/rd_5_nested_matrices.Rd
+ccfa0e5af1affe3bd750dc38cdd341b2 *man/rd_6_nested_matrix_methods.Rd
