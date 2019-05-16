@@ -1,27 +1,31 @@
 \name{rd_2_convenience_functions_1}
-\alias{THIS}
-\alias{THAT}
-\title{Convenience Functions 1}
-\description{Convenience functions to get the system function, or its attributes.}
+\alias{LIST}
+\alias{EXTEND}
+\title{Convenience Functions 2}
+\description{Functions for constructing named lists or S3 objects.}
 \usage{
-THIS ()
-THAT ()
+LIST (\dots)
+EXTEND (object, class, \dots)
+}
+\arguments{
+\item{object}{An object.}
+\item{class}{A class name.}
+\item{\dots}{A list of values.}
 }
 \details{
-These functions are simply wrappers for standard R functions.
+The LIST() function constructs a named list, automatically naming it's elements, if names aren't supplied.
 
-THIS() returns the current system function, and THAT() returns the current system function's attributes.
+The EXTEND() function constructs an S3 object, by prepending the new class to the existing class, and then assigning attributes.
 
-Note that they should be evaluated inside the function calling them.
+Note that extending vectors needs to be done carefully, because some operations change their mode.
 }
 \examples{
-#good
-f = function ()
-{   this = THIS ()
-    do.something (this)
-}
+object = x = y = z = 1L
 
-#bad
-f = function ()
-    do.something (THIS () )
+#names = c ("x", "y", "other")
+LIST (x, y, other=z)
+
+#class = c ("something", "integer")
+#other attribute names = c ("x", "y", "other")
+EXTEND (object, "something", x, y, other=z)
 }

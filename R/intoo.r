@@ -1,4 +1,10 @@
-.LIST = function (..., start=1)
+"%$%" = function (object, name)
+	attr (object, as.character (substitute (name) ) )
+
+"%$%<-" = function (object, name, value)
+  "attr<-" (object, as.character (substitute (name) ), value)
+
+ .LIST = function (..., start=1)
 {	sc = as.list (sys.call (-1) )[-(1:start)]
 	L = list (...)
 	names.1 = names (sc)
@@ -13,11 +19,17 @@
 	L
 }
 
-"%$%" = function (object, name)
-	attr (object, as.character (substitute (name) ) )
+LIST = function (...)
+	.LIST (...)
 
-"%$%<-" = function (object, name, value)
-  "attr<-" (object, as.character (substitute (name) ), value)
+EXTEND = function (object, class, ...)
+{	cl = list (c (class, class (object) ) )
+	a1 = attributes (object)
+	a1$class = NULL
+	a2 = .LIST (..., start=3)
+	attributes (object) = c (class=cl, a1, a2)
+	object
+}
 
 THIS = function ()
 	sys.function (-1)
@@ -27,13 +39,7 @@ THAT = function ()
 	attributes (this)
 }
 
-LIST = function (...)
-	.LIST (...)
-
-EXTEND = function (object, class, ...)
-{	a1 = list (c (class, class (object) ) )
-	a2 = attributes (object)
-	a3 = .LIST (..., start=3)
-	attributes (object) = c (class=a1, a2, a3)
-	object
+THEN = function ()
+{	this = sys.function (-1)
+	environment (this)
 }
