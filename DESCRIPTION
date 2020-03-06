@@ -1,14 +1,15 @@
 Package: intoo
-Title: Object Oriented Extensions
-Version: 0.3.1
-Date: 2019-05-16
+Title: Minimal Language-Like Extensions
+Version: 0.4.0
+Date: 2020-03-07
 License: GPL (>= 2)
 Maintainer: Abby Spurdle <spurdle.a@gmail.com>
 Author: Abby Spurdle [cre, aut], Emil Bode [ctb]
 URL: https://sites.google.com/site/spurdlea/r
-Description: Contains attribute operators (%$% and %$%<-), convenience functions and functions for printing objects compactly but informatively. And partly supports nested matrices.
-Suggests: barsurf
+Description: Binary operators (%$%, %$%<-, %@% and %@%<-) to set and get object attributes and environment members, convenience functions for constructing named lists, S3 objects and self-referencing function objects, and functions for printing objects, particularly suitable for printing function objects bundled with data.
+Depends: methods
+Suggests: vectools
 NeedsCompilation: no
-Packaged: 2019-05-16 01:46:00 UTC; Student9
+Packaged: 2020-03-06 19:54:42 UTC; spurdle
 Repository: CRAN
-Date/Publication: 2019-05-16 04:30:03 UTC
+Date/Publication: 2020-03-06 21:40:02 UTC
